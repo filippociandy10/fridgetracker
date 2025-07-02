@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
 COPY fridgetracker.sln ./
-COPY fridgetracker.csproj ./
+COPY /fridgetracker/fridgetracker.csproj ./
 RUN dotnet restore
 
 COPY . ./
