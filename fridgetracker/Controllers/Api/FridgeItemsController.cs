@@ -2,15 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using FridgeTracker.Data;
 using FridgeTracker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FridgeTracker.Controllers.Api
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FridgeItemsController : ControllerBase
     {
         private readonly FridgeTrackerDbContext _context;
@@ -120,6 +119,11 @@ namespace FridgeTracker.Controllers.Api
         private bool FridgeItemExists(int id)
         {
             return _context.FridgeItems.Any(e => e.Id == id);
+        }
+
+        private string GetCurrentUserId()
+        {
+            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }
 }

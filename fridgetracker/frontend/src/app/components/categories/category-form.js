@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { categoriesAPI } from '@/lib/api';
+import { categoriesAPI } from '@/app/lib/api';
 
 export default function CategoryForm({ categoryId }) {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import CategoryDetail from '@/components/categories/category-detail';
+import CategoryDetail from "@/app/components/categories/category-detail";
 
 export const metadata = {
   title: 'Category Details - FridgeTracker',

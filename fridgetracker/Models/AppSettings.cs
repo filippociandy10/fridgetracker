@@ -12,5 +12,7 @@ namespace FridgeTracker.Models
         public bool ShowNotifications { get; set; } = true;
 
         public bool DarkMode { get; set; } = false;
+
+        public string? UserId { get; set; }
     }
 }

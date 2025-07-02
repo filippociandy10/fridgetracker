@@ -1,4 +1,4 @@
-import CategoryForm from '@/components/categories/category-form';
+import CategoryForm from "@/app/components/categories/category-form";
 
 export const metadata = {
   title: 'Create Category - FridgeTracker',

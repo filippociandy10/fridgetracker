@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using FridgeTracker.Models;
+using FridgeTracker.Models.Auth;
 
 namespace FridgeTracker.Data
 {
-    public class FridgeTrackerDbContext : DbContext
+    public class FridgeTrackerDbContext : IdentityDbContext<ApplicationUser>
     {
         public FridgeTrackerDbContext(DbContextOptions<FridgeTrackerDbContext> options)
             : base(options)
@@ -16,6 +19,7 @@ namespace FridgeTracker.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // This calls the base IdentityDbContext OnModelCreating which sets up the Identity tables
             base.OnModelCreating(modelBuilder);
 
             // Relationships
@@ -41,6 +45,19 @@ namespace FridgeTracker.Data
             modelBuilder.Entity<AppSettings>().HasData(
                 new AppSettings { Id = 1, WarningDays = 3, ShowNotifications = true, DarkMode = false }
             );
+
+            // Optional: Customize the Identity tables names if desired
+            // modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            // modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+
+            // Add any additional configurations for the Identity tables
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.FirstName)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.LastName)
+                .HasMaxLength(50);
         }
     }
 }

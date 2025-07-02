@@ -1,7 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using FridgeTracker.Models;
 using FridgeTracker.Data;
+using FridgeTracker.Models.Auth;
+using FridgeTracker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +18,52 @@ builder.Services.AddSwaggerGen();
 // Add DbContext
 builder.Services.AddDbContext<FridgeTrackerDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    // Password requirements
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+
+    // User requirements
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<FridgeTrackerDbContext>()
+.AddDefaultTokenProviders();
+
+// Configure JWT Authentication
+var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettingsSection);
+var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Set to true in production
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+// Register JWT Service
+builder.Services.AddScoped<JwtService>();
 
 // Add CORS to allow requests from Next.js frontend
 builder.Services.AddCors(options =>
@@ -46,6 +97,8 @@ app.UseRouting();
 // Use CORS
 app.UseCors("AllowNextApp");
 
+// Add authentication middleware (must come before authorization)
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -57,12 +110,25 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<FridgeTrackerDbContext>();
-        context.Database.EnsureCreated();
+
+        // Apply pending migrations instead of just EnsureCreated
+        context.Database.Migrate();
+
+        // Seed the roles
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        if (!await roleManager.RoleExistsAsync("Admin"))
+        {
+            await roleManager.CreateAsync(new IdentityRole("Admin"));
+        }
+        if (!await roleManager.RoleExistsAsync("User"))
+        {
+            await roleManager.CreateAsync(new IdentityRole("User"));
+        }
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while creating the database.");
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
     }
 }
 
