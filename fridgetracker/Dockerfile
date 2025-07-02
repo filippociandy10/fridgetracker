@@ -5,7 +5,7 @@ WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 
-COPY . ./  # This will copy fridgetracker.db too if it's in the root
+COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Runtime stage
