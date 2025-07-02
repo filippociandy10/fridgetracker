@@ -6,11 +6,15 @@ COPY *.csproj ./
 RUN dotnet restore
 
 COPY . ./
+COPY fridgetracker.db ./fridgetracker.db
+
 RUN dotnet publish -c Release -o out
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
+
 COPY --from=build /app/out .
+COPY --from=build /app/fridgetracker.db ./fridgetracker.db 
 
 ENTRYPOINT ["dotnet", "fridgetracker.dll"]
