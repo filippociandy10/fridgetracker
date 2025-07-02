@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fridgetracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+db01e7e930bc79a3621045f74450d8a48a3f47b0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2e26c69e617201e0b159e5474d36b6aac0b427f")]
 [assembly: System.Reflection.AssemblyProductAttribute("fridgetracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fridgetracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

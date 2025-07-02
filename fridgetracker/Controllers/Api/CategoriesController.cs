@@ -43,7 +43,7 @@ namespace FridgeTracker.Controllers.Api
         {
             var category = await _context.Categories
                 .Include(c => c.FridgeItems)
-                .ThenInclude(f => f.Category)
+                //.ThenInclude(f => f.Category)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (category == null)
@@ -117,7 +117,6 @@ namespace FridgeTracker.Controllers.Api
 
             return NoContent();
         }
-
         private bool CategoryExists(int id)
         {
             return _context.Categories.Any(e => e.Id == id);
