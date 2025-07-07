@@ -18,7 +18,18 @@ builder.Services.AddSwaggerGen();
 
 // Add DbContext
 builder.Services.AddDbContext<FridgeTrackerDbContext>(options =>
+
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowVercel", policy =>
+    {
+        policy.WithOrigins("https://fridgetracker.vercel.app")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 // Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -90,12 +101,12 @@ else
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
 // Use CORS
+app.UseCors("AllowVercel");
 app.UseCors("AllowNextApp");
 
 // Add authentication middleware (must come before authorization)

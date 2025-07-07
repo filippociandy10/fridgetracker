@@ -1,6 +1,6 @@
 // Base URL for the backend API
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("API BASE URL: ", process.env.NEXT_PUBLIC_API_URL)
+
 // Helper function to get auth token from local storage
 const getAuthToken = () => {
   if (typeof window === 'undefined') return null;
