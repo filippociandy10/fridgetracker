@@ -20,7 +20,7 @@ const logout = () => {
 
 // Generic fetch function with error handling and authentication
 async function fetchAPI(endpoint, options = {}) {
-  const url = `${API_BASE_URL}/${endpoint}`;
+  const url = `${API_BASE_URL}/api/${endpoint}`;
   
   const defaultOptions = {
     headers: {
@@ -69,58 +69,58 @@ async function fetchAPI(endpoint, options = {}) {
 
 // Auth API
 export const authAPI = {
-  login: (credentials) => fetchAPI('auth/login', {
+  login: (credentials) => fetchAPI('api/auth/login', {
     method: 'POST',
     body: JSON.stringify(credentials),
   }),
   
-  register: (userData) => fetchAPI('auth/register', {
+  register: (userData) => fetchAPI('api/auth/register', {
     method: 'POST',
     body: JSON.stringify(userData),
   }),
   
-  getProfile: () => fetchAPI('auth/profile'),
+  getProfile: () => fetchAPI('api/auth/profile'),
 };
 
 // FridgeItems API
 export const fridgeItemsAPI = {
-  getAll: () => fetchAPI('fridgeItems'),
-  getById: (id) => fetchAPI(`fridgeItems/${id}`),
-  getExpiring: () => fetchAPI('fridgeItems/expiring'),
-  create: (data) => fetchAPI('fridgeItems', {
+  getAll: () => fetchAPI('api/fridgeItems'),
+  getById: (id) => fetchAPI(`api/fridgeItems/${id}`),
+  getExpiring: () => fetchAPI('api/fridgeItems/expiring'),
+  create: (data) => fetchAPI('api/fridgeItems', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id, data) => fetchAPI(`fridgeItems/${id}`, {
+  update: (id, data) => fetchAPI(`api/fridgeItems/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
-  delete: (id) => fetchAPI(`fridgeItems/${id}`, {
+  delete: (id) => fetchAPI(`api/fridgeItems/${id}`, {
     method: 'DELETE',
   }),
 };
 
 // Categories API
 export const categoriesAPI = {
-  getAll: () => fetchAPI('categories'),
-  getById: (id) => fetchAPI(`categories/${id}`),
-  create: (data) => fetchAPI('categories', {
+  getAll: () => fetchAPI('api/categories'),
+  getById: (id) => fetchAPI(`api/categories/${id}`),
+  create: (data) => fetchAPI('api/categories', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id, data) => fetchAPI(`categories/${id}`, {
+  update: (id, data) => fetchAPI(`api/categories/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
-  delete: (id) => fetchAPI(`categories/${id}`, {
+  delete: (id) => fetchAPI(`api/categories/${id}`, {
     method: 'DELETE',
   }),
 };
 
 // Settings API
 export const settingsAPI = {
-  get: () => fetchAPI('settings'),
-  update: (data) => fetchAPI('settings', {
+  get: () => fetchAPI('api/settings'),
+  update: (data) => fetchAPI('api/settings', {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
