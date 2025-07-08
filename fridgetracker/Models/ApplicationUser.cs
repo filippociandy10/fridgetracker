@@ -6,5 +6,6 @@ namespace FridgeTracker.Models.Auth
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public virtual ICollection<Fridge> Fridges { get; set; } = new List<Fridge>();
     }
 }

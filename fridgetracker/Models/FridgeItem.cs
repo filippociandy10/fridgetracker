@@ -35,5 +35,7 @@ namespace FridgeTracker.Models
             _ => "Unknown"
         };
         public string? Notes { get; set; }
+        public int FridgeId { get; set; }
+        public virtual Fridge Fridge { get; set; } = null!;
     }
 }

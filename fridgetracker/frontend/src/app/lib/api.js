@@ -27,7 +27,7 @@ async function fetchAPI(endpoint, options = {}) {
       'Content-Type': 'application/json',
     },
   };
-  
+    
   // Add authentication token to headers if available
   const token = getAuthToken();
   if (token) {
