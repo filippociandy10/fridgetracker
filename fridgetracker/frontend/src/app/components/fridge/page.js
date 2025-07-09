@@ -1,9 +1,6 @@
+'use client'
 import Link from 'next/link';
 import FridgeList from './fridge-list';
-
-export const metadata = {
-  title: 'Fridge List - FridgeTracker',
-};
 
 export default function FridgeItemsPage() {
   return (

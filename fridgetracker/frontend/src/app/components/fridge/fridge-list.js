@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { fridgesAPI } from '@/app/lib/api';
 
 export default function FridgeList({ fridges: initialFridges }) {
-  const [fridges, setFridges] = useState(initialFridges);
+  const [fridges, setFridges] = useState(initialFridges || []);
   const [deletingId, setDeletingId] = useState(null);
   const [confirmingId, setConfirmingId] = useState(null);
 
