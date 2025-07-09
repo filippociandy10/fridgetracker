@@ -8,7 +8,7 @@ export default function CreateFridgeItemPage() {
   return (
     <div>
       <h1>Add New Item</h1>
-      <FridgeItemForm />
+      <FridgeItemForm fridgeId={someFridgeId}/>
     </div>
   );
 }

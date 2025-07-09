@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { fridgeItemsAPI, categoriesAPI } from '@/app/lib/api';
 
-export default function FridgeItemForm({ itemId }) {
+export default function FridgeItemForm({ itemId, fridgeId }) {
   const router = useRouter();
   const isEditMode = !!itemId;
   
@@ -15,7 +15,8 @@ export default function FridgeItemForm({ itemId }) {
     categoryId: '',
     expiryDate: '',
     storageLocation: '',
-    notes: ''
+    notes: '',
+    fridgeId: fridgeId || '' 
   });
   
   const [categories, setCategories] = useState([]);
@@ -39,7 +40,8 @@ export default function FridgeItemForm({ itemId }) {
             categoryId: itemData.categoryId || '',
             expiryDate: new Date(itemData.expiryDate).toISOString().split('T')[0],
             storageLocation: itemData.storageLocation || '',
-            notes: itemData.notes || ''
+            notes: itemData.notes || '',
+            fridgeId: itemData.fridgeId
           });
         } else {
           // Set default expiry date to 7 days from now for new items
