@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { fridgeItemsAPI } from '@/app/lib/api';
 
-export default function FridgeItemDetail({ itemId }) {
+export default function FridgeItemDetail({ fridgeId, itemId }) {
   const router = useRouter();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,24 +15,26 @@ export default function FridgeItemDetail({ itemId }) {
   useEffect(() => {
     async function loadItem() {
       try {
-        const data = await fridgeItemsAPI.getById(itemId);
+        const data = await fridgeItemsAPI.getById(fridgeId, itemId);
         setItem(data);
-        setLoading(false);
       } catch (error) {
         console.error('Error loading item:', error);
         setError('Failed to load the item. It may have been deleted or does not exist.');
+      } finally {
         setLoading(false);
       }
     }
 
-    loadItem();
-  }, [itemId]);
+    if (fridgeId && itemId) {
+      loadItem();
+    }
+  }, [fridgeId, itemId]);
 
   const handleDelete = async () => {
     try {
       setDeleting(true);
-      await fridgeItemsAPI.delete(itemId);
-      router.push('/fridge-items');
+      await fridgeItemsAPI.delete(fridgeId, itemId);
+      router.push(`/fridges/${fridgeId}/items`);
     } catch (error) {
       console.error('Error deleting item:', error);
       setError('Failed to delete the item.');
@@ -53,10 +55,12 @@ export default function FridgeItemDetail({ itemId }) {
   };
 
   if (loading) {
-    return <div className="animate-pulse space-y-4">
-      <div className="h-10 bg-slate-200 rounded w-full mb-4"></div>
-      <div className="h-32 bg-slate-200 rounded"></div>
-    </div>;
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-10 bg-slate-200 rounded w-full mb-4"></div>
+        <div className="h-32 bg-slate-200 rounded"></div>
+      </div>
+    );
   }
 
   if (error) {
@@ -64,7 +68,7 @@ export default function FridgeItemDetail({ itemId }) {
       <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
         {error}
         <div className="mt-4">
-          <Link href="/fridge-items" className="px-4 py-2 bg-blue-500 text-white rounded font-medium hover:bg-blue-600">
+          <Link href={`/fridges/${fridgeId}/items`} className="px-4 py-2 bg-blue-500 text-white rounded font-medium hover:bg-blue-600">
             Back to Items
           </Link>
         </div>
@@ -94,7 +98,7 @@ export default function FridgeItemDetail({ itemId }) {
             )}
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <h3 className="text-lg font-medium mb-2">Item Details</h3>
@@ -113,7 +117,7 @@ export default function FridgeItemDetail({ itemId }) {
               </p>
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-medium mb-2">Notes</h3>
             <div className="bg-gray-50 p-4 rounded min-h-24">
@@ -126,17 +130,17 @@ export default function FridgeItemDetail({ itemId }) {
           </div>
         </div>
       </div>
-      
+
       <div className="bg-gray-50 px-6 py-3 flex justify-between">
-        <Link href="/fridge-items" className="px-4 py-2 bg-gray-200 text-gray-800 rounded font-medium hover:bg-gray-300">
+        <Link href={`/fridges/${fridgeId}/items`} className="px-4 py-2 bg-gray-200 text-gray-800 rounded font-medium hover:bg-gray-300">
           Back to List
         </Link>
-        
+
         <div className="flex space-x-2">
-          <Link href={`/fridge-items/edit/${item.id}`} className="px-4 py-2 bg-yellow-500 text-white rounded font-medium hover:bg-yellow-600">
+          <Link href={`/fridges/${fridgeId}/items/${item.id}/edit`} className="px-4 py-2 bg-yellow-500 text-white rounded font-medium hover:bg-yellow-600">
             Edit
           </Link>
-          
+
           {!showConfirmDelete ? (
             <button 
               onClick={() => setShowConfirmDelete(true)} 

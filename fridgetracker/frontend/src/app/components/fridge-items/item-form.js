@@ -7,7 +7,7 @@ import { fridgeItemsAPI, categoriesAPI } from '@/app/lib/api';
 export default function FridgeItemForm({ itemId, fridgeId }) {
   const router = useRouter();
   const isEditMode = !!itemId;
-  
+
   const [formData, setFormData] = useState({
     name: '',
     quantity: 1,
@@ -16,9 +16,9 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
     expiryDate: '',
     storageLocation: '',
     notes: '',
-    fridgeId: fridgeId || '' 
+    fridgeId: fridgeId || ''
   });
-  
+
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -29,9 +29,9 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
       try {
         const categoriesData = await categoriesAPI.getAll();
         setCategories(categoriesData);
-        
+
         if (isEditMode) {
-          const itemData = await fridgeItemsAPI.getById(itemId);
+          const itemData = await fridgeItemsAPI.getById(fridgeId, itemId);
           setFormData({
             id: itemData.id,
             name: itemData.name,
@@ -44,7 +44,6 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
             fridgeId: itemData.fridgeId
           });
         } else {
-          // Set default expiry date to 7 days from now for new items
           const defaultDate = new Date();
           defaultDate.setDate(defaultDate.getDate() + 7);
           setFormData(prev => ({
@@ -52,7 +51,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
             expiryDate: defaultDate.toISOString().split('T')[0]
           }));
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error('Error loading form data:', error);
@@ -62,12 +61,12 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
     }
 
     loadData();
-  }, [itemId, isEditMode]);
+  }, [itemId, isEditMode, fridgeId]);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     const newValue = type === 'number' ? parseFloat(value) : value;
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: newValue
@@ -76,39 +75,36 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validation
+
     if (!formData.name.trim()) {
       setError('Item name is required');
       return;
     }
-    
+
     if (!formData.expiryDate) {
       setError('Expiry date is required');
       return;
     }
-    
+
     setSubmitting(true);
     setError(null);
-    
+
     try {
-      // Create a copy of the form data for submission
       const dataToSubmit = { ...formData };
-      
-      // Make sure categoryId is a number if provided
+
       if (dataToSubmit.categoryId) {
         dataToSubmit.categoryId = parseInt(dataToSubmit.categoryId, 10);
       }
-      
+
       console.log('Submitting data:', dataToSubmit);
-      
+
       if (isEditMode) {
-        await fridgeItemsAPI.update(itemId, dataToSubmit);
+        await fridgeItemsAPI.update(fridgeId, itemId, dataToSubmit);
       } else {
-        await fridgeItemsAPI.create(dataToSubmit);
+        await fridgeItemsAPI.create(fridgeId, dataToSubmit);
       }
-      
-      router.push('/fridge-items');
+
+      router.push(`/fridges/${fridgeId}/items`);
     } catch (error) {
       console.error('Error saving item:', error);
       setError(`An error occurred while saving: ${error.message || 'Please check your connection and try again.'}`);
@@ -117,10 +113,12 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
   };
 
   if (loading) {
-    return <div className="animate-pulse space-y-4">
-      <div className="h-10 bg-slate-200 rounded w-full mb-4"></div>
-      <div className="h-32 bg-slate-200 rounded"></div>
-    </div>;
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-10 bg-slate-200 rounded w-full mb-4"></div>
+        <div className="h-32 bg-slate-200 rounded"></div>
+      </div>
+    );
   }
 
   return (
@@ -130,7 +128,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
           {error}
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -147,7 +145,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
                 required
               />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
                 <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Quantity*</label>
@@ -163,7 +161,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
                   required
                 />
               </div>
-              
+
               <div>
                 <label htmlFor="unit" className="block text-sm font-medium text-gray-700 mb-1">Unit</label>
                 <select
@@ -185,7 +183,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
                 </select>
               </div>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
               <select
@@ -201,7 +199,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
                 ))}
               </select>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">Expiry Date*</label>
               <input
@@ -215,7 +213,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
               />
             </div>
           </div>
-          
+
           <div>
             <div className="mb-4">
               <label htmlFor="storageLocation" className="block text-sm font-medium text-gray-700 mb-1">Storage Location</label>
@@ -234,7 +232,7 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
                 <option value="Other">Other</option>
               </select>
             </div>
-            
+
             <div className="mb-4">
               <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
               <textarea
@@ -249,9 +247,9 @@ export default function FridgeItemForm({ itemId, fridgeId }) {
             </div>
           </div>
         </div>
-        
+
         <div className="flex justify-between mt-6">
-          <Link href="/fridge-items" className="px-4 py-2 bg-gray-200 text-gray-800 rounded font-medium hover:bg-gray-300">
+          <Link href={`/fridges/${fridgeId}/items`} className="px-4 py-2 bg-gray-200 text-gray-800 rounded font-medium hover:bg-gray-300">
             Cancel
           </Link>
           <button 

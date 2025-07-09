@@ -45,6 +45,9 @@ export default function Navbar() {
                 <Link href="/" className={`inline-flex items-center px-1 pt-1 border-b-2 ${pathname === '/' ? 'border-blue-500' : 'border-transparent'} ${isActive('/')}`}>
                   Dashboard
                 </Link>
+                <Link href="/fridges" className={`inline-flex items-center px-1 pt-1 border-b-2 ${pathname.startsWith('/fridges') ? 'border-blue-500' : 'border-transparent'} ${isActive('/fridges')}`}>
+                  Fridges
+                </Link>
                 <Link href="/fridge-items" className={`inline-flex items-center px-1 pt-1 border-b-2 ${pathname.startsWith('/fridge-items') ? 'border-blue-500' : 'border-transparent'} ${isActive('/fridge-items')}`}>
                   Fridge Items
                 </Link>
@@ -58,7 +61,6 @@ export default function Navbar() {
             )}
           </div>
           
-          {/* Auth status section - desktop */}
           <div className="hidden sm:flex sm:items-center">
             {authenticated ? (
               <div className="flex items-center space-x-4">
@@ -83,31 +85,17 @@ export default function Navbar() {
               </div>
             )}
           </div>
-          
+
           <div className="flex items-center sm:hidden">
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
             >
               <span className="sr-only">Open main menu</span>
-              <svg
-                className={`${isOpen ? 'hidden' : 'block'} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
+              <svg className={`${isOpen ? 'hidden' : 'block'} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <svg
-                className={`${isOpen ? 'block' : 'hidden'} h-6 w-6`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
+              <svg className={`${isOpen ? 'block' : 'hidden'} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -121,6 +109,9 @@ export default function Navbar() {
             <>
               <Link href="/" className={`block pl-3 pr-4 py-2 border-l-4 ${pathname === '/' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'}`}>
                 Dashboard
+              </Link>
+              <Link href="/fridges" className={`block pl-3 pr-4 py-2 border-l-4 ${pathname.startsWith('/fridges') ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'}`}>
+                Fridges
               </Link>
               <Link href="/fridge-items" className={`block pl-3 pr-4 py-2 border-l-4 ${pathname.startsWith('/fridge-items') ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'}`}>
                 Fridge Items
@@ -137,8 +128,7 @@ export default function Navbar() {
               Please log in to access the application
             </div>
           )}
-          
-          {/* Auth status section - mobile */}
+
           <div className="border-t border-gray-200 pt-4 pb-2">
             {authenticated ? (
               <>

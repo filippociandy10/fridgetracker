@@ -106,8 +106,7 @@
               "RelativeToolTip": "fridgetracker\\Dockerfile",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-07-02T20:07:38.193Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T20:07:38.193Z"
             },
             {
               "$type": "Document",
@@ -215,8 +214,7 @@
               "RelativeToolTip": "fridgetracker\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-15T04:13:28.991Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T04:13:28.991Z"
             },
             {
               "$type": "Document",
@@ -252,8 +250,7 @@
               "RelativeToolTip": "fridgetracker\\Controllers\\Api\\CategoriesController.cs",
               "ViewState": "AgIAAEQAAAAAAAAAAAAnwGMAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T21:10:49.668Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T21:10:49.668Z"
             },
             {
               "$type": "Document",
@@ -265,8 +262,7 @@
               "RelativeToolTip": "fridgetracker\\Controllers\\Api\\FridgeItemsController.cs",
               "ViewState": "AgIAAEYAAAAAAAAAAAAiwFwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T21:10:39.331Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T21:10:39.331Z"
             },
             {
               "$type": "Document",
@@ -302,8 +298,7 @@
               "RelativeToolTip": "fridgetracker\\Models\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-14T21:10:06.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T21:10:06.978Z"
             },
             {
               "$type": "Document",
@@ -337,7 +332,7 @@
               "RelativeDocumentMoniker": "fridgetracker\\Program.cs",
               "ToolTip": "C:\\Users\\Fil\\source\\repos\\fridgetracker\\fridgetracker\\Program.cs",
               "RelativeToolTip": "fridgetracker\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAGwAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-14T21:02:02.671Z",
               "EditorCaption": ""

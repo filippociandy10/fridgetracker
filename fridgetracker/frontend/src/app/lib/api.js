@@ -81,24 +81,40 @@ export const authAPI = {
   
   getProfile: () => fetchAPI('auth/profile'),
 };
-
-// FridgeItems API
-export const fridgeItemsAPI = {
-  getAll: () => fetchAPI('fridgeItems'),
-  getById: (id) => fetchAPI(`fridgeItems/${id}`),
-  getExpiring: () => fetchAPI('fridgeItems/expiring'),
-  create: (data) => fetchAPI('fridgeItems', {
+// Fridges API
+export const fridgesAPI = {
+  getAll: () => fetchAPI('fridges'),
+  getById: (id) => fetchAPI(`fridges/${id}`),
+  create: (data) => fetchAPI('fridges', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  update: (id, data) => fetchAPI(`fridgeItems/${id}`, {
+  update: (id, data) => fetchAPI(`fridges/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   }),
-  delete: (id) => fetchAPI(`fridgeItems/${id}`, {
+  delete: (id) => fetchAPI(`fridges/${id}`, {
     method: 'DELETE',
   }),
 };
+
+// FridgeItems API (Nested under /fridges/:fridgeId/items)
+export const fridgeItemsAPI = {
+  getAll: (fridgeId) => fetchAPI(`fridges/${fridgeId}/items`),
+  getById: (fridgeId, itemId) => fetchAPI(`fridges/${fridgeId}/items/${itemId}`),
+  getExpiring: (fridgeId) => fetchAPI(`fridges/${fridgeId}/items/expiring`),
+  create: (fridgeId, data) => fetchAPI(`fridges/${fridgeId}/items`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  update: (fridgeId, itemId, data) => fetchAPI(`fridges/${fridgeId}/items/${itemId}`, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  }),
+  delete: (fridgeId, itemId) => fetchAPI(`fridges/${fridgeId}/items/${itemId}`, {
+    method: 'DELETE',
+  }),
+}
 
 // Categories API
 export const categoriesAPI = {

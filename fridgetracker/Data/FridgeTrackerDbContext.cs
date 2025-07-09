@@ -70,6 +70,12 @@ namespace FridgeTracker.Data
                 .HasOne(fu => fu.User)
                 .WithMany(u => u.FridgeUsers)
                 .HasForeignKey(fu => fu.UserId);
+                
+            modelBuilder.Entity<FridgeItem>()
+                .HasOne(fi => fi.Fridge)
+                .WithMany(f => f.FridgeItems)
+                .HasForeignKey(fi => fi.FridgeId)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }
