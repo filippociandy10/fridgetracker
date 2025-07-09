@@ -58,15 +58,18 @@ namespace FridgeTracker.Data
             modelBuilder.Entity<ApplicationUser>()
                 .Property(u => u.LastName)
                 .HasMaxLength(50);
-            modelBuilder.Entity<Fridge>()
-                .HasOne(f => f.User)
-                .WithMany(u => u.Fridges)
-                .HasForeignKey(f => f.UserId);
+            modelBuilder.Entity<FridgeUser>()
+                .HasKey(fu => new { fu.FridgeId, fu.UserId });
 
-            modelBuilder.Entity<FridgeItem>()
-                .HasOne(i => i.Fridge)
-                .WithMany(f => f.FridgeItems)
-                .HasForeignKey(i => i.FridgeId);
+            modelBuilder.Entity<FridgeUser>()
+                .HasOne(fu => fu.Fridge)
+                .WithMany(f => f.FridgeUsers)
+                .HasForeignKey(fu => fu.FridgeId);
+
+            modelBuilder.Entity<FridgeUser>()
+                .HasOne(fu => fu.User)
+                .WithMany(u => u.FridgeUsers)
+                .HasForeignKey(fu => fu.UserId);
         }
     }
 }
