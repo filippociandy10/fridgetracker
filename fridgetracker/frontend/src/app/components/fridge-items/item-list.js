@@ -1,11 +1,8 @@
-'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { fridgeItemsAPI, categoriesAPI } from '@/app/lib/api';
 
-export default function FridgeItemList() {
-  const { fridgeId } = useParams();
+export default function FridgeItemList({fridgeId}) {
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
