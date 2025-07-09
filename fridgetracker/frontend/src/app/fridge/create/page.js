@@ -1,6 +1,5 @@
 'use client';
-import FridgeForm from '@/app/components/fridge/FridgeForm';
-
+import FridgeForm from "@/app/components/fridge/fridge-form";
 export default function CreateFridgePage() {
   return (
     <div className="p-6">

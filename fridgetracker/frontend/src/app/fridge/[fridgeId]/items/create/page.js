@@ -1,7 +1,6 @@
 'use client';
 import { useParams } from 'next/navigation';
-import FridgeItemForm from '@/app/components/fridge-items/FridgeItemForm';
-
+import FridgeItemForm from '@/app/components/fridge-items/item-form';
 export default function CreateFridgeItemPage() {
   const { fridgeId } = useParams();
 
